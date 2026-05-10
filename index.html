@@ -14,6 +14,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',san
 .logo{padding:16px 16px 14px;border-bottom:1px solid #2a2a2a;text-align:center}
 .logo-title{font-family:'Oswald','Impact','Arial Black',sans-serif;font-size:21px;font-weight:700;color:#C6A97A;line-height:1.35;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
 .logo-sub{font-size:17px;font-weight:500;color:#888;margin-top:6px;text-align:center}
+.logo-motto-en{font-size:12px;font-weight:600;color:#C6A97A;letter-spacing:2.5px;text-transform:uppercase;font-style:italic;opacity:0.85;margin-top:14px}
+.logo-motto-ko{font-size:11px;color:#888;letter-spacing:1.5px;font-style:italic;opacity:0.65;margin-top:3px}
 .nav{padding:10px 8px}
 .nav-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:8px;cursor:pointer;color:#888;transition:background .15s,color .15s;margin-bottom:4px;font-size:17px;font-weight:500;user-select:none}
 .nav-item:hover{background:#1e1e1e;color:#e6e6e6}
@@ -120,6 +122,8 @@ input[type=text]::placeholder{color:#444}
   <div class="logo">
     <div class="logo-title">🕋 VETERAN SHERIFF's DEPARTMENT</div>
     <div class="logo-sub">베테랑 보안국</div>
+    <div class="logo-motto-en">To Protect and Serve</div>
+    <div class="logo-motto-ko">보호하고 봉사한다</div>
   </div>
   <nav class="nav">
     <div class="nav-item active" id="nav-notice" onclick="showPage('notice')">
@@ -452,6 +456,7 @@ function buildFineGrid(){
   // 벌금 환산기 카드 — 영장RP 옆
   const convCard=document.createElement('div');
   convCard.className='card';
+  convCard.style.gridColumn='span 2';
   convCard.innerHTML=`
     <div class="card-header">■ 벌금 환산기</div>
     <div class="conv-body">
@@ -507,7 +512,7 @@ function resetFines(){
 
 function copyFineResult(){
   const sel=document.querySelectorAll('.fine-item.selected');
-  if(!sel.length){toast('항목을 선택하세요.');return}
+  if(!sel.length){toast('복사할 내역이 없음');return}
   const{finalFine,finalTime}=getFinal();
   const names=[...sel].map(el=>el.dataset.n).join(', ');
   const byeoldoPart=byeoldoCount>0?` (별도 보석금 ${byeoldoCount}회 적용)`:'';
@@ -519,7 +524,7 @@ function calcConverter(){
   const inp=document.getElementById('conv-input');
   const raw=inp.value.replace(/[^0-9]/g,'');
   const el=document.getElementById('conv-result');
-  if(!raw){inp.value='';el.textContent='-';el.style.color='#888';return}
+  if(!raw){inp.value='';el.innerHTML='-';el.style.color='#888';return}
   const amount=parseInt(raw);
   // 커서 위치 유지하며 콤마 포맷
   inp.value=amount.toLocaleString('ko-KR');
@@ -531,8 +536,8 @@ function calcConverter(){
     el.textContent='120분 이상 계산 불가 (최대 120분)';
     el.style.color='#d97070';
   } else {
-    el.textContent=`구금 ${mins}분`;
-    el.style.color='#C6A97A';
+    el.innerHTML=`<span style="color:#888">구금</span> <span style="color:#d97070">${mins}분</span>`;
+    el.style.color='';
   }
 }
 
