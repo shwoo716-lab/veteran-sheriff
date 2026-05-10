@@ -10,10 +10,10 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;background:#111111;color:#e6e6e6;display:flex;min-height:100vh;font-size:18px}
 
 /* Sidebar */
-.sidebar{width:310px;min-height:100vh;background:#0d0d0d;border-right:1px solid #2a2a2a;display:flex;flex-direction:column;flex-shrink:0}
-.logo{padding:16px 16px;border-bottom:1px solid #2a2a2a}
+.sidebar{width:400px;min-height:100vh;background:#0d0d0d;border-right:1px solid #2a2a2a;display:flex;flex-direction:column;flex-shrink:0}
+.logo{padding:16px 16px 14px;border-bottom:1px solid #2a2a2a;text-align:center}
 .logo-title{font-family:'Oswald','Impact','Arial Black',sans-serif;font-size:21px;font-weight:700;color:#C6A97A;line-height:1.35;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
-.logo-sub{font-size:17px;font-weight:500;color:#888;margin-top:6px}
+.logo-sub{font-size:17px;font-weight:500;color:#888;margin-top:6px;text-align:center}
 .nav{padding:10px 8px}
 .nav-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:8px;cursor:pointer;color:#888;transition:background .15s,color .15s;margin-bottom:4px;font-size:17px;font-weight:500;user-select:none}
 .nav-item:hover{background:#1e1e1e;color:#e6e6e6}
@@ -25,7 +25,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',san
 .page.active{display:block}
 .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .page-title{font-size:24px;font-weight:700}
-.clock{font-size:21px;color:#C6A97A;font-weight:300;letter-spacing:1px}
+.clock{font-size:21px;color:#C6A97A;font-weight:300;letter-spacing:1px;text-align:right}
 
 /* Cards grid */
 .cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
@@ -44,23 +44,27 @@ input[type=text]::placeholder{color:#444}
 .btn.yellow{color:#C6A97A}
 .btn.red{color:#d97070}
 
-/* Location buttons — no persistent active state */
+/* Location buttons */
 .btn-loc{width:100%;padding:11px 14px;border-radius:8px;cursor:pointer;font-size:17px;font-weight:500;margin-bottom:8px;border:1px solid #2a2a2a;background:#222;color:#aaa;font-family:inherit;text-align:center;transition:background .15s,border-color .15s,color .15s}
 .btn-loc:last-child{margin-bottom:0}
 .btn-loc:hover{background:#2d2d2d}
 
-/* Flash animation — fires once then reverts to normal */
+/* Flash animations */
 @keyframes flash-loc{0%,35%{background:#6B4F3A;border-color:#6B4F3A;color:#fff}100%{background:#222;border-color:#2a2a2a;color:#aaa}}
 @keyframes flash-bail{0%,35%{background:#6B4F3A;border-color:#6B4F3A;color:#fff}100%{background:#222;border-color:#2a2a2a;color:#aaa}}
+@keyframes flash-byeoldo{0%,35%{background:#8B6B4A;border-color:#8B6B4A;color:#fff}100%{background:#222;border-color:#2a2a2a;color:#aaa}}
+@keyframes flash-byeoldo-revoke{0%,35%{background:#d97070;border-color:#d97070;color:#fff}100%{background:#222;border-color:#d97070;color:#d97070}}
 .btn-flash{animation:flash-loc .5s ease-out forwards}
 .btn-bail-flash{animation:flash-bail .5s ease-out forwards}
+.btn-byeoldo-flash{animation:flash-byeoldo .5s ease-out forwards}
+.btn-byeoldo-revoke-flash{animation:flash-byeoldo-revoke .5s ease-out forwards}
 
 /* Toast */
 .toast{position:fixed;top:24px;left:50%;transform:translateX(-50%) translateY(-80px);background:#6B4F3A;color:#fff;padding:11px 26px;border-radius:8px;font-size:17px;font-weight:500;z-index:9999;transition:transform .3s cubic-bezier(.25,.8,.25,1);pointer-events:none;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
 /* Fine calculator */
-.fine-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding-bottom:80px}
+.fine-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding-bottom:6px}
 .fine-item{display:flex;justify-content:space-between;align-items:center;padding:10px 13px;background:#1e1e1e;border:1px solid #2a2a2a;border-radius:8px;cursor:pointer;margin-bottom:6px;transition:border-color .15s,background .15s;user-select:none}
 .fine-item:hover{border-color:#C6A97A;background:#222}
 .fine-item.selected{background:#3a2e24;border-color:#6B4F3A}
@@ -72,23 +76,39 @@ input[type=text]::placeholder{color:#444}
 .item-amount{font-size:16px;color:#C6A97A;font-weight:600;display:block}
 .item-time{font-size:15px;color:#d97070;display:block}
 
+/* 벌금 환산기 */
+.conv-body{display:flex;flex-direction:column;gap:10px}
+.conv-input-row{display:flex;align-items:center;gap:14px}
+.conv-input-row input{margin-bottom:0;flex:1}
+.conv-arrow{font-size:22px;color:#C6A97A;flex-shrink:0}
+.conv-result{font-size:20px;font-weight:700;min-width:220px;color:#888}
+.conv-hint{font-size:15px;color:#555}
+
 /* Bottom bar */
-.bottom-bar{position:fixed;bottom:0;left:310px;right:0;background:#1a1a1a;border-top:2px solid #2a2a2a;padding:13px 24px;display:none;align-items:center;gap:16px;z-index:200}
+.bottom-bar{position:fixed;bottom:0;left:400px;right:0;background:#1a1a1a;border-top:2px solid #2a2a2a;padding:13px 20px;display:none;align-items:center;gap:12px;z-index:200;flex-wrap:wrap}
 .bottom-bar.visible{display:flex}
-.total-display{font-size:20px;font-weight:700}
+.total-display{font-size:20px;font-weight:700;display:flex;align-items:center;gap:0}
 .lbl{color:#888;margin-right:4px}
 .val-fine{color:#C6A97A}
 .val-time{color:#d97070}
 .sep{color:#444;margin:0 10px}
-.bail-row{display:flex;align-items:center;gap:10px;margin-left:auto}
+.byeoldo-display{font-size:17px;font-weight:600;color:#C6A97A;margin-left:12px;background:#2a2a2a;padding:4px 10px;border-radius:6px;border:1px solid #C6A97A;display:none}
+.bail-row{display:flex;align-items:center;gap:10px;margin-left:auto;flex-wrap:wrap}
 
-/* Bail / action buttons — no persistent active state */
-.btn-bail{padding:10px 18px;background:#222;border:1px solid #2a2a2a;border-radius:8px;color:#aaa;cursor:pointer;font-size:17px;font-weight:500;font-family:inherit;white-space:nowrap}
+/* Bail / action buttons */
+.btn-bail{padding:10px 16px;background:#222;border:1px solid #2a2a2a;border-radius:8px;color:#aaa;cursor:pointer;font-size:16px;font-weight:500;font-family:inherit;white-space:nowrap}
 .btn-bail:hover{background:#2d2d2d;color:#e6e6e6}
-.btn-reset{padding:9px 16px;background:#222;border:1px solid #2a2a2a;border-radius:6px;color:#888;cursor:pointer;font-size:17px;font-family:inherit;transition:background .15s,color .15s}
+.btn-byeoldo{padding:10px 16px;background:#222;border:1px solid #8B6B4A;border-radius:8px;color:#C6A97A;cursor:pointer;font-size:16px;font-weight:500;font-family:inherit;white-space:nowrap}
+.btn-byeoldo:hover{background:#2d2d2d}
+.btn-byeoldo-revoke{padding:10px 16px;background:#222;border:1px solid #d97070;border-radius:8px;color:#d97070;cursor:pointer;font-size:16px;font-weight:500;font-family:inherit;white-space:nowrap}
+.btn-byeoldo-revoke:hover{background:#2d2d2d}
+.btn-reset{padding:9px 14px;background:#222;border:1px solid #2a2a2a;border-radius:6px;color:#888;cursor:pointer;font-size:16px;font-family:inherit;transition:background .15s,color .15s}
 .btn-reset:hover{background:#2d2d2d;color:#e6e6e6}
-.btn-copy-res{padding:11px 22px;background:#6B4F3A;border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:18px;font-weight:600;font-family:inherit;transition:background .15s}
+.btn-copy-res{padding:11px 20px;background:#6B4F3A;border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:17px;font-weight:600;font-family:inherit;transition:background .15s}
 .btn-copy-res:hover{background:#7d5d46}
+
+/* Fine page bottom padding */
+#page-fine{padding-bottom:90px}
 </style>
 </head>
 <body>
@@ -98,7 +118,7 @@ input[type=text]::placeholder{color:#444}
 <!-- Sidebar -->
 <aside class="sidebar">
   <div class="logo">
-    <div class="logo-title">🕋 VETERAN SHERIFF's<br>DEPARTMENT</div>
+    <div class="logo-title">🕋 VETERAN SHERIFF's DEPARTMENT</div>
     <div class="logo-sub">베테랑 보안국</div>
   </div>
   <nav class="nav">
@@ -107,6 +127,9 @@ input[type=text]::placeholder{color:#444}
     </div>
     <div class="nav-item" id="nav-fine" onclick="showPage('fine')">
       <span>💰</span> 벌금 계산기
+    </div>
+    <div class="nav-item" id="nav-ouri" onclick="showPage('ouri')">
+      <span>🕋</span> 우리 보안국
     </div>
   </nav>
 </aside>
@@ -122,7 +145,6 @@ input[type=text]::placeholder{color:#444}
     </div>
 
     <div class="cards-grid">
-      <!-- 출석 & 수배 -->
       <div class="card">
         <div class="card-header">🕋 출석 &amp; 수배</div>
         <input type="text" id="nickname" placeholder="닉네임">
@@ -133,14 +155,12 @@ input[type=text]::placeholder{color:#444}
         <button class="btn" onclick="copyWantedEnd()">수배 종료</button>
       </div>
 
-      <!-- ATM 상황 -->
       <div class="card">
         <div class="card-header">■ ATM 상황</div>
         <button class="btn-loc" onclick="toggleLoc(this,'중부 ATM')">중부 ATM</button>
         <button class="btn-loc" onclick="toggleLoc(this,'서부 ATM')">서부 ATM</button>
       </div>
 
-      <!-- 편의점 상황 -->
       <div class="card">
         <div class="card-header">■ 편의점 상황</div>
         <button class="btn-loc" onclick="toggleLoc(this,'중부 편의점')">중부 편의점</button>
@@ -149,7 +169,6 @@ input[type=text]::placeholder{color:#444}
         <button class="btn-loc" onclick="toggleLoc(this,'북부 편의점')">북부 편의점</button>
       </div>
 
-      <!-- 중 대형 및 기타RP -->
       <div class="card">
         <div class="card-header">■ 중 대형 및 기타RP</div>
         <button class="btn-loc" onclick="toggleLoc(this,'북부 빈집1')">북부 빈집1</button>
@@ -168,7 +187,20 @@ input[type=text]::placeholder{color:#444}
       <h1 class="page-title">💰 벌금 계산기</h1>
       <div class="clock" id="clk2"></div>
     </div>
+
     <div class="fine-grid" id="fine-grid"></div>
+  </section>
+
+  <!-- 우리 보안국 -->
+  <section class="page" id="page-ouri">
+    <div class="page-header">
+      <h1 class="page-title">🕋 우리 보안국</h1>
+      <div class="clock" id="clk3"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 160px);gap:24px">
+      <img src="sheriff.png" alt="우리 보안국" style="max-width:80%;max-height:65vh;border-radius:14px;object-fit:contain;box-shadow:0 4px 32px #0008">
+      <div style="font-size:22px;color:#888;font-style:italic;letter-spacing:1px">힘들지? 타고 가~</div>
+    </div>
   </section>
 
 </main>
@@ -179,8 +211,11 @@ input[type=text]::placeholder{color:#444}
     <span class="lbl">벌금</span><span class="val-fine" id="disp-fine">0원</span>
     <span class="sep">|</span>
     <span class="lbl">구금</span><span class="val-time" id="disp-time">0분</span>
+    <span class="byeoldo-display" id="byeoldo-display"></span>
   </div>
   <div class="bail-row">
+    <button class="btn-byeoldo" id="bail-byeoldo" onclick="addByeoldo()">별도 보석금</button>
+    <button class="btn-byeoldo-revoke" id="bail-byeoldo-revoke" onclick="removeByeoldo()">별도 보석금 철회</button>
     <button class="btn-bail" id="bail-normal" onclick="setBail('normal')">일반 보석금</button>
     <button class="btn-bail" id="bail-large" onclick="setBail('large')">대형 보석금</button>
     <button class="btn-reset" onclick="resetFines()">초기화</button>
@@ -190,12 +225,16 @@ input[type=text]::placeholder{color:#444}
 
 <script>
 // Clock
+const DAYS=['일','월','화','수','목','금','토'];
 function pad(n){return String(n).padStart(2,'0')}
 function tick(){
   const n=new Date();
+  const date=`${n.getFullYear()}년 ${pad(n.getMonth()+1)}월 ${pad(n.getDate())}일 ${DAYS[n.getDay()]}요일`;
   const t=`${pad(n.getHours())}시 ${pad(n.getMinutes())}분 ${pad(n.getSeconds())}초`;
-  document.getElementById('clk1').textContent=t;
-  document.getElementById('clk2').textContent=t;
+  const txt=`${date}  ${t}`;
+  document.getElementById('clk1').textContent=txt;
+  document.getElementById('clk2').textContent=txt;
+  document.getElementById('clk3').textContent=txt;
 }
 setInterval(tick,1000);tick();
 
@@ -223,7 +262,7 @@ function showPage(p){
   document.getElementById('bottom-bar').classList.toggle('visible',p==='fine');
 }
 
-// Notice: fields & time
+// Notice fields & time
 function getFields(){
   return{
     nick:document.getElementById('nickname').value.trim(),
@@ -262,52 +301,51 @@ const LOC_TEXT={
   '북부저택':       `/보안국 《 북부 저택 강도사건 발생 》 신고가 들어와 출동합니다. 현 시간부로 사건 발생지점으로부터 2블럭이내 접근 시 공범으로 간주. 사살 및 긴급체포 할수있습니다. 불이익이 발생하지 않도록 확인 바랍니다. 『 보안국 』`,
   '헬기이륙':       `/보안국 보안국 헬기 영공순찰로 인하여 이륙합니다.`,
 };
-// 버튼 flash 후 원상복귀
+
+// 버튼 flash
 function flashBtn(btn,cls){
   btn.classList.remove(cls);
-  void btn.offsetWidth; // reflow
+  void btn.offsetWidth;
   btn.classList.add(cls);
   setTimeout(()=>btn.classList.remove(cls),500);
 }
-
 function toggleLoc(btn,key){
   flashBtn(btn,'btn-flash');
   copyText(LOC_TEXT[key]);
 }
 
 // ── 벌금 데이터 ──
-// large: true → 대형 보석금 적용 시 최소 10분 구금 유지
 const FINES=[
   {cat:'일반 스토리RP', items:[
-    {name:'ATM 강도',     a:50_000_000,  t:10},
-    {name:'편의점 강도',   a:80_000_000,  t:10},
-    {name:'빈집1 털이',    a:50_000_000,  t:10},
-    {name:'빈집2 털이',    a:50_000_000,  t:10},
+    {name:'ATM 강도',    a:50_000_000,  t:10},
+    {name:'편의점 강도', a:80_000_000,  t:10},
+    {name:'빈집1 털이',  a:50_000_000,  t:10},
+    {name:'빈집2 털이',  a:50_000_000,  t:10},
   ]},
   {cat:'경범죄 상황', items:[
-    {name:'소음 공해',     a:10_000_000,  t:0},
-    {name:'불법 주정차',   a:10_000_000,  t:0},
-    {name:'속도 위반',     a:10_000_000,  t:0},
-    {name:'신호 위반',     a:10_000_000,  t:0},
-    {name:'불법 유턴',     a:10_000_000,  t:0},
-    {name:'역주행',        a:10_000_000,  t:0},
-    {name:'인도 주행',     a:10_000_000,  t:0},
-    {name:'기물 파손',     a:10_000_000,  t:0},
-    {name:'스턴트 주행',   a:20_000_000,  t:0},
-    {name:'차량 파손',     a:50_000_000,  t:10},
-    {name:'뺑소니 사고',   a:100_000_000, t:20},
-    {name:'폭주(400km↑)',  a:50_000_000,  t:20},
-    {name:'보복 운전',     a:200_000_000, t:30},
+    {name:'소음 공해',   a:10_000_000,  t:0},
+    {name:'불법 주정차', a:10_000_000,  t:0},
+    {name:'속도 위반',   a:10_000_000,  t:0},
+    {name:'신호 위반',   a:10_000_000,  t:0},
+    {name:'불법 유턴',   a:10_000_000,  t:0},
+    {name:'역주행',      a:10_000_000,  t:0},
+    {name:'인도 주행',   a:10_000_000,  t:0},
+    {name:'기물 파손',   a:10_000_000,  t:0},
+    {name:'스턴트 주행', a:20_000_000,  t:0},
+    {name:'차량 파손',   a:50_000_000,  t:10},
+    {name:'뺑소니 사고', a:100_000_000, t:20},
+    {name:'폭주(400km↑)',a:50_000_000,  t:20},
+    {name:'보복 운전',   a:200_000_000, t:30},
   ]},
   {cat:'중범죄 상황', items:[
-    {name:'난폭 운전',     a:50_000_000,  t:30},
-    {name:'명예 회손',     a:20_000_000,  t:10},
-    {name:'일반 폭행',     a:100_000_000, t:20},
-    {name:'불법물건소지',  a:80_000_000,  t:20},
-    {name:'불법총기소지',  a:150_000_000, t:30},
-    {name:'증거 인멸',     a:200_000_000, t:20},
-    {name:'차량 절도',     a:100_000_000, t:30},
-    {name:'시민 살인',     a:300_000_000, t:30},
+    {name:'난폭 운전',   a:50_000_000,  t:30},
+    {name:'명예 회손',   a:20_000_000,  t:10},
+    {name:'일반 폭행',   a:100_000_000, t:20},
+    {name:'불법물건소지',a:80_000_000,  t:20},
+    {name:'불법총기소지',a:150_000_000, t:30},
+    {name:'증거 인멸',   a:200_000_000, t:20},
+    {name:'차량 절도',   a:100_000_000, t:30},
+    {name:'시민 살인',   a:300_000_000, t:30},
   ]},
   {cat:'공무원 관련', items:[
     {name:'공무원 차량 절도 시도', a:100_000_000, t:0},
@@ -319,24 +357,22 @@ const FINES=[
     {name:'공무원 차량절도',       a:400_000_000, t:30},
     {name:'공무원 살인',           a:400_000_000, t:40},
   ]},
-  // 대형 보석금 시 최소 구금 10분 유지
   {cat:'대형 스토리RP', items:[
     {name:'저택RP',     a:200_000_000, t:20, large:true},
     {name:'북부은행RP', a:350_000_000, t:20, large:true},
     {name:'즉흥RP',     a:200_000_000, t:20, large:true},
     {name:'수배RP',     a:200_000_000, t:20, large:true},
+    {name:'닭공장RP',   a:350_000_000, t:30, large:true},
   ]},
   {cat:'영장RP', items:[
-    // large:true → 대형 보석금 적용, 최소 10분 유지
     {name:'영장RP 최초수배자', a:600_000_000, t:40, large:true, tag:'대형RP'},
-    // 강력RP → 일반 보석금 적용
     {name:'영장RP 참여자',     a:300_000_000, t:30, tag:'강력RP'},
   ]},
 ];
 
-// 보석금 요율: 10분당
 const BAIL_RATE={normal:50_000_000, large:100_000_000};
 let bailMode='none';
+let byeoldoCount=0;
 
 function setBail(mode){
   bailMode=(bailMode===mode)?'none':mode;
@@ -346,17 +382,14 @@ function setBail(mode){
 
 function fmt(n){return n.toLocaleString('ko-KR')+'원'}
 
-// 보석금 계산
-// largeTime: large:true 항목의 구금 합계 → 대형 보석금 시 최소 10분 보존
-function applyBail(fine, time, largeTime){
+// 대형 보석금: large 항목은 최소 10분 구금 유지
+function applyBail(fine,time,largeTime){
   if(bailMode==='none') return{df:fine,dt:time};
   const normalTime=time-largeTime;
   if(bailMode==='normal'){
-    // 일반: 전체 구금에 적용, 최소 유지 없음
     const chunks=Math.floor(time/10);
     return{df:fine+chunks*BAIL_RATE.normal, dt:time%10};
   }
-  // 대형: 일반 항목은 전부 차감, large 항목은 최소 10분 보존
   const normalChunks=Math.floor(normalTime/10);
   const remainNormal=normalTime%10;
   const largeChunks=largeTime>10?Math.floor((largeTime-10)/10):0;
@@ -367,7 +400,30 @@ function applyBail(fine, time, largeTime){
   };
 }
 
-// Fine grid 생성
+// 별도 보석금: 구금 1분 차감 & 벌금 5,000,000 추가
+function addByeoldo(){
+  const{fine,time,largeTime}=getRaw();
+  const{dt}=applyBail(fine,time,largeTime);
+  const remaining=dt-byeoldoCount;
+  if(remaining<=0){
+    toast('더 이상 별도 보석금 추가 불가');
+    return;
+  }
+  byeoldoCount++;
+  flashBtn(document.getElementById('bail-byeoldo'),'btn-byeoldo-flash');
+  updateTotals();
+}
+
+function removeByeoldo(){
+  if(byeoldoCount<=0){
+    toast('철회할 별도 보석금이 없음');
+    return;
+  }
+  byeoldoCount--;
+  flashBtn(document.getElementById('bail-byeoldo-revoke'),'btn-byeoldo-revoke-flash');
+  updateTotals();
+}
+
 function buildFineGrid(){
   const grid=document.getElementById('fine-grid');
   FINES.forEach(cat=>{
@@ -381,15 +437,9 @@ function buildFineGrid(){
       div.dataset.t=item.t;
       div.dataset.n=item.name;
       div.dataset.large=item.large?'true':'false';
-
-      const tagHtml=item.tag
-        ?`<span class="item-tag">${item.tag}</span>`
-        :'';
-
+      const tagHtml=item.tag?`<span class="item-tag">${item.tag}</span>`:'';
       div.innerHTML=`
-        <span class="item-left">
-          <span class="item-name">${item.name}</span>${tagHtml}
-        </span>
+        <span class="item-left"><span class="item-name">${item.name}</span>${tagHtml}</span>
         <span class="item-info">
           <span class="item-amount">${fmt(item.a)}</span>
           ${item.t>0?`<span class="item-time">${item.t}분</span>`:''}
@@ -399,38 +449,91 @@ function buildFineGrid(){
     });
     grid.appendChild(card);
   });
+  // 벌금 환산기 카드 — 영장RP 옆
+  const convCard=document.createElement('div');
+  convCard.className='card';
+  convCard.innerHTML=`
+    <div class="card-header">■ 벌금 환산기</div>
+    <div class="conv-body">
+      <div class="conv-input-row">
+        <input type="text" id="conv-input" placeholder="벌금 금액 입력 (원)" oninput="calcConverter()">
+        <span class="conv-arrow">→</span>
+        <span class="conv-result" id="conv-result">-</span>
+      </div>
+      <div class="conv-hint">5,000,000원 = 구금 1분 &nbsp;|&nbsp; 최소 1분 ~ 최대 120분</div>
+    </div>`;
+  grid.appendChild(convCard);
 }
 
 function getRaw(){
   let fine=0,time=0,largeTime=0;
   document.querySelectorAll('.fine-item.selected').forEach(el=>{
-    fine+=+el.dataset.a;
-    time+=+el.dataset.t;
+    fine+=+el.dataset.a; time+=+el.dataset.t;
     if(el.dataset.large==='true') largeTime+=+el.dataset.t;
   });
   return{fine,time,largeTime};
 }
 
-function updateTotals(){
+// 최종 값 계산 (bail + 별도 보석금 모두 적용)
+function getFinal(){
   const{fine,time,largeTime}=getRaw();
   const{df,dt}=applyBail(fine,time,largeTime);
-  document.getElementById('disp-fine').textContent=fmt(df);
-  document.getElementById('disp-time').textContent=dt+'분';
+  return{
+    finalFine: df + byeoldoCount*5_000_000,
+    finalTime: Math.max(0, dt-byeoldoCount)
+  };
+}
+
+function updateTotals(){
+  const{finalFine,finalTime}=getFinal();
+  document.getElementById('disp-fine').textContent=fmt(finalFine);
+  document.getElementById('disp-time').textContent=finalTime+'분';
+
+  const bd=document.getElementById('byeoldo-display');
+  if(byeoldoCount>0){
+    bd.style.display='inline-block';
+    bd.textContent=`[별도 보석금] ${byeoldoCount}회`;
+  } else {
+    bd.style.display='none';
+  }
 }
 
 function resetFines(){
   document.querySelectorAll('.fine-item.selected').forEach(el=>el.classList.remove('selected'));
   bailMode='none';
+  byeoldoCount=0;
   updateTotals();
 }
 
 function copyFineResult(){
   const sel=document.querySelectorAll('.fine-item.selected');
   if(!sel.length){toast('항목을 선택하세요.');return}
-  const{fine,time,largeTime}=getRaw();
-  const{df,dt}=applyBail(fine,time,largeTime);
+  const{finalFine,finalTime}=getFinal();
   const names=[...sel].map(el=>el.dataset.n).join(', ');
-  copyText(`[정산 결과] 죄목: ${names} 벌금 ${fmt(df)} 구금 ${dt}분`);
+  const byeoldoPart=byeoldoCount>0?` (별도 보석금 ${byeoldoCount}회 적용)`:'';
+  copyText(`[정산 결과] 죄목: ${names} 벌금 ${fmt(finalFine)} 구금 ${finalTime}분${byeoldoPart}`);
+}
+
+// 벌금 환산기
+function calcConverter(){
+  const inp=document.getElementById('conv-input');
+  const raw=inp.value.replace(/[^0-9]/g,'');
+  const el=document.getElementById('conv-result');
+  if(!raw){inp.value='';el.textContent='-';el.style.color='#888';return}
+  const amount=parseInt(raw);
+  // 커서 위치 유지하며 콤마 포맷
+  inp.value=amount.toLocaleString('ko-KR');
+  const mins=Math.floor(amount/5_000_000);
+  if(mins<1){
+    el.textContent='최소 1분 미만 — 계산 불가';
+    el.style.color='#d97070';
+  } else if(mins>120){
+    el.textContent='120분 이상 계산 불가 (최대 120분)';
+    el.style.color='#d97070';
+  } else {
+    el.textContent=`구금 ${mins}분`;
+    el.style.color='#C6A97A';
+  }
 }
 
 buildFineGrid();
