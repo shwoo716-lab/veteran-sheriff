@@ -10,12 +10,27 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;background:#111111;color:#e6e6e6;display:flex;min-height:100vh;font-size:18px}
 
 /* Sidebar */
-.sidebar{width:400px;min-height:100vh;background:#0d0d0d;border-right:1px solid #2a2a2a;display:flex;flex-direction:column;flex-shrink:0}
+.sidebar{width:400px;min-height:100vh;background:#0d0d0d;border-right:1px solid #2a2a2a;display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
 .logo{padding:16px 16px 14px;border-bottom:1px solid #2a2a2a;text-align:center}
 .logo-title{font-family:'Oswald','Impact','Arial Black',sans-serif;font-size:21px;font-weight:700;color:#C6A97A;line-height:1.35;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
 .logo-sub{font-size:17px;font-weight:500;color:#888;margin-top:6px;text-align:center}
 .logo-motto-en{font-size:12px;font-weight:600;color:#C6A97A;letter-spacing:2.5px;text-transform:uppercase;font-style:italic;opacity:0.85;margin-top:14px}
 .logo-motto-ko{font-size:11px;color:#888;letter-spacing:1.5px;font-style:italic;opacity:0.65;margin-top:3px}
+/* 죄목 리스트 팝업 */
+.crime-popup{position:fixed;width:260px;height:260px;min-width:160px;min-height:160px;max-width:540px;max-height:540px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px;z-index:500;display:none;flex-direction:column;box-shadow:0 8px 32px #000c;cursor:move;user-select:none;resize:both;overflow:hidden}
+.crime-popup.visible{display:flex}
+.crime-popup-title{font-size:calc(13px * var(--cps,1));font-weight:700;color:#C6A97A;text-align:center;letter-spacing:2px;text-transform:uppercase;padding-bottom:10px;border-bottom:1px solid #2a2a2a;margin-bottom:10px;flex-shrink:0}
+.crime-popup-items{flex:1;overflow-y:auto;margin-bottom:10px;display:flex;flex-direction:column;gap:4px;min-height:0}
+.crime-popup-item{font-size:calc(12px * var(--cps,1));color:#c8c8c8;padding:5px 9px;background:#1e1e1e;border-radius:5px;border-left:2px solid #6B4F3A;flex-shrink:0}
+.crime-popup-empty{font-size:calc(12px * var(--cps,1));color:#333;text-align:center;padding:14px 0;font-style:italic}
+.crime-popup-quote{border-top:1px solid #222;padding-top:10px;flex-shrink:0}
+.cpq-name{font-size:calc(10px * var(--cps,1));font-weight:700;color:#C6A97A;font-style:italic;margin-bottom:4px;transition:opacity .85s}
+.cpq-body{font-size:calc(10px * var(--cps,1));color:#999;font-style:italic;line-height:1.55;transition:opacity .85s}
+
+/* 헤더 명언 */
+.header-quote-area{text-align:center;overflow:hidden;padding:0 8px}
+.hq-name{font-size:14px;font-weight:700;color:#C6A97A;font-style:italic;letter-spacing:0.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .85s}
+.hq-body{font-size:12px;color:#999;font-style:italic;line-height:1.5;transition:opacity .85s;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .nav{padding:10px 8px}
 .nav-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:8px;cursor:pointer;color:#888;transition:background .15s,color .15s;margin-bottom:4px;font-size:17px;font-weight:500;user-select:none}
 .nav-item:hover{background:#1e1e1e;color:#e6e6e6}
@@ -25,9 +40,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',san
 .main{flex:1;padding:26px 24px;overflow-y:auto}
 .page{display:none}
 .page.active{display:block}
-.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.page-header{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;margin-bottom:20px}
 .page-title{font-size:24px;font-weight:700}
-.clock{font-size:21px;color:#C6A97A;font-weight:300;letter-spacing:1px;text-align:right}
+.clock{font-size:21px;color:#C6A97A;font-weight:300;letter-spacing:1px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 
 /* Cards grid */
 .cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
@@ -111,6 +126,22 @@ input[type=text]::placeholder{color:#444}
 
 /* Fine page bottom padding */
 #page-fine{padding-bottom:90px}
+
+/* 우리의 다짐 슬라이드 */
+.daejim-stage{position:relative;display:flex;align-items:center;justify-content:center;width:100%;overflow:hidden;min-height:calc(100vh - 220px)}
+.dj-center{display:inline-flex;flex-direction:column;align-items:center;gap:20px}
+.dj-frame{display:flex;justify-content:center}
+#dj-slot>img,#dj-slot>video{max-height:65vh;max-width:60vw;border-radius:14px;box-shadow:0 4px 36px #000a;display:block}
+@keyframes dj-fade{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
+#dj-slot>*{animation:dj-fade .35s ease-out}
+.daejim-caption{font-family:'Oswald','Impact',sans-serif;font-size:22px;font-weight:400;color:#e6e6e6;letter-spacing:3px;text-align:center;line-height:1.45;white-space:nowrap;padding-bottom:16px}
+.dj-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.7);font-size:26px;width:42px;height:42px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s;line-height:1}
+.dj-btn:hover{background:rgba(255,255,255,.18);color:#fff}
+.dj-prev{left:20px}
+.dj-next{right:20px}
+.dj-dots{display:flex;gap:8px;justify-content:center;margin-top:8px;padding-bottom:16px}
+.dj-dot{width:7px;height:7px;border-radius:50%;background:#333;transition:background .25s;cursor:pointer;user-select:none}
+.dj-dot.on{background:#C6A97A}
 </style>
 </head>
 <body>
@@ -135,8 +166,26 @@ input[type=text]::placeholder{color:#444}
     <div class="nav-item" id="nav-ouri" onclick="showPage('ouri')">
       <span>🕋</span> 우리 보안국
     </div>
+    <div class="nav-item" id="nav-daejim" onclick="showPage('daejim')">
+      <span>🛡️</span> 우리의 다짐
+    </div>
+    <div class="nav-item" id="nav-crimes" onclick="toggleCrimePopup(this)">
+      <span>⚖️</span> 죄목 리스트
+    </div>
   </nav>
 </aside>
+
+<!-- 죄목 리스트 팝업 -->
+<div class="crime-popup" id="crime-popup">
+  <div class="crime-popup-title">죄목 리스트</div>
+  <div class="crime-popup-items" id="crime-list-items">
+    <div class="crime-popup-empty">선택된 죄목 없음</div>
+  </div>
+  <div class="crime-popup-quote">
+    <div class="cpq-name" id="cpq-name"></div>
+    <div class="cpq-body" id="cpq-body"></div>
+  </div>
+</div>
 
 <!-- Main -->
 <main class="main">
@@ -145,6 +194,7 @@ input[type=text]::placeholder{color:#444}
   <section class="page active" id="page-notice">
     <div class="page-header">
       <h1 class="page-title">📋 사이드공지</h1>
+      <div class="header-quote-area"><div class="hq-name"></div><div class="hq-body"></div></div>
       <div class="clock" id="clk1"></div>
     </div>
 
@@ -168,6 +218,7 @@ input[type=text]::placeholder{color:#444}
       <div class="card">
         <div class="card-header">■ 편의점 상황</div>
         <button class="btn-loc" onclick="toggleLoc(this,'중부 편의점')">중부 편의점</button>
+        <button class="btn-loc" onclick="toggleLoc(this,'서부 편의점')">서부 편의점</button>
         <button class="btn-loc" onclick="toggleLoc(this,'이케아 옆 편의점')">이케아 옆 편의점</button>
         <button class="btn-loc" onclick="toggleLoc(this,'호수 위 편의점')">호수 위 편의점</button>
         <button class="btn-loc" onclick="toggleLoc(this,'북부 편의점')">북부 편의점</button>
@@ -189,16 +240,38 @@ input[type=text]::placeholder{color:#444}
   <section class="page" id="page-fine">
     <div class="page-header">
       <h1 class="page-title">💰 벌금 계산기</h1>
+      <div class="header-quote-area"><div class="hq-name"></div><div class="hq-body"></div></div>
       <div class="clock" id="clk2"></div>
     </div>
 
     <div class="fine-grid" id="fine-grid"></div>
   </section>
 
+  <!-- 우리의 다짐 -->
+  <section class="page" id="page-daejim">
+    <div class="page-header">
+      <h1 class="page-title">🛡️ 우리의 다짐</h1>
+      <div class="header-quote-area"><div class="hq-name"></div><div class="hq-body"></div></div>
+      <div class="clock" id="clk4"></div>
+    </div>
+    <div class="daejim-stage">
+      <button class="dj-btn dj-prev" onclick="djMove(-1)">&#8249;</button>
+      <div class="dj-center">
+        <div class="dj-frame">
+          <div id="dj-slot"></div>
+        </div>
+        <div class="daejim-caption" id="dj-cap"></div>
+      </div>
+      <button class="dj-btn dj-next" onclick="djMove(1)">&#8250;</button>
+    </div>
+    <div class="dj-dots" id="dj-dots"></div>
+  </section>
+
   <!-- 우리 보안국 -->
   <section class="page" id="page-ouri">
     <div class="page-header">
       <h1 class="page-title">🕋 우리 보안국</h1>
+      <div class="header-quote-area"><div class="hq-name"></div><div class="hq-body"></div></div>
       <div class="clock" id="clk3"></div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 160px);gap:24px">
@@ -239,6 +312,7 @@ function tick(){
   document.getElementById('clk1').textContent=txt;
   document.getElementById('clk2').textContent=txt;
   document.getElementById('clk3').textContent=txt;
+  document.getElementById('clk4').textContent=txt;
 }
 setInterval(tick,1000);tick();
 
@@ -297,6 +371,7 @@ const LOC_TEXT={
   '중부 편의점':    `/보안국 《 중부 편의점 강도사건 발생 》 신고가 들어와 출동합니다. 현 시간부로 사건 발생지점으로부터 2블럭이내 접근 시 공범으로 간주. 사살 및 긴급체포 할수있습니다. 불이익이 발생하지 않도록 확인 바랍니다. 『 보안국 』`,
   '이케아 옆 편의점':`/보안국 《 이케아 옆 편의점 강도사건 발생 》 신고가 들어와 출동합니다. 현 시간부로 사건 발생지점으로부터 2블럭이내 접근 시 공범으로 간주. 사살 및 긴급체포 할수있습니다. 불이익이 발생하지 않도록 확인 바랍니다. 『 보안국 』`,
   '호수 위 편의점': `/보안국 《 호수 위 편의점 강도사건 발생 》 신고가 들어와 출동합니다. 현 시간부로 사건 발생지점으로부터 2블럭이내 접근 시 공범으로 간주. 사살 및 긴급체포 할수있습니다. 불이익이 발생하지 않도록 확인 바랍니다. 『 보안국 』`,
+  '서부 편의점':    `/보안국 《 서부 편의점 강도사건 발생 》 신고가 들어와 출동합니다. 현 시간부로 사건 발생지점으로부터 2블럭이내 접근 시 공범으로 간주. 사살 및 긴급체포 할수있습니다. 불이익이 발생하지 않도록 확인 바랍니다. 『 보안국 』`,
   '북부 편의점':    `/보안국 《 북부 편의점 강도사건 발생 》 신고가 들어와 출동합니다. 현 시간부로 사건 발생지점으로부터 2블럭이내 접근 시 공범으로 간주. 사살 및 긴급체포 할수있습니다. 불이익이 발생하지 않도록 확인 바랍니다. 『 보안국 』`,
   '북부 빈집1':     `/보안국 《 북부 빈집1 강도사건 발생 》 신고가 들어와 출동합니다. 현 시간부로 사건 발생지점으로부터 2블럭이내 접근 시 공범으로 간주. 사살 및 긴급체포 할수있습니다. 불이익이 발생하지 않도록 확인 바랍니다. 『 보안국 』`,
   '북부 빈집2':     `/보안국 《 북부 빈집2 강도사건 발생 》 신고가 들어와 출동합니다. 현 시간부로 사건 발생지점으로부터 2블럭이내 접근 시 공범으로 간주. 사살 및 긴급체포 할수있습니다. 불이익이 발생하지 않도록 확인 바랍니다. 『 보안국 』`,
@@ -378,12 +453,13 @@ const FINES=[
   ]},
 ];
 
-const BAIL_RATE={normal:50_000_000, large:100_000_000};
+const BAIL_RATE={normal:50_000_000, large:50_000_000};
 let bailMode='none';
 let byeoldoCount=0;
 
 function setBail(mode){
   bailMode=(bailMode===mode)?'none':mode;
+  byeoldoCount=0;
   flashBtn(document.getElementById('bail-'+mode),'btn-bail-flash');
   updateTotals();
 }
@@ -505,6 +581,24 @@ function updateTotals(){
   } else {
     bd.style.display='none';
   }
+  updateCrimeList();
+}
+
+function updateCrimeList(){
+  const container=document.getElementById('crime-list-items');
+  if(!container) return;
+  const sel=document.querySelectorAll('.fine-item.selected');
+  container.innerHTML='';
+  if(!sel.length){
+    container.innerHTML='<div class="crime-popup-empty">선택된 죄목 없음</div>';
+    return;
+  }
+  sel.forEach(el=>{
+    const div=document.createElement('div');
+    div.className='crime-popup-item';
+    div.textContent=el.dataset.n;
+    container.appendChild(div);
+  });
 }
 
 function resetFines(){
@@ -546,6 +640,125 @@ function calcConverter(){
 }
 
 buildFineGrid();
+
+// 우리의 다짐 슬라이드
+const DJ_DATA=[
+  {src:'sheriff1.png',      t:'img',   cap:'"보이지 않는 방패, 흔들리지 않는 신념"'},
+  {src:'sheriff2.png',      t:'img',   cap:'"위험은 숨을 수 있어도 우리는 멈추지 않는다."'},
+  {src:'sheriff3.png',      t:'img',   cap:'"한 발 먼저, 한 치 빈틈 없이."'},
+  {src:'sheriff4.png',      t:'img',   cap:'"국가의 안전, 우리의 사명."'},
+  {src:'sheriff5.png',      t:'img',   cap:'"어둠 속에서도 국민은 안전해야 한다."'},
+  {src:'sheriff-chase.mp4', t:'video', cap:'"끝까지 추적하고, 끝까지 보호한다."'},
+];
+let _djIdx=0;
+DJ_DATA.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='dj-dot'+(i===0?' on':'');
+  d.onclick=()=>djGo(i);
+  document.getElementById('dj-dots').appendChild(d);
+});
+function djGo(idx){
+  document.getElementById('dj-slot').querySelectorAll('video').forEach(v=>{v.pause();v.currentTime=0;});
+  _djIdx=idx;
+  const d=DJ_DATA[idx];
+  const slot=document.getElementById('dj-slot');
+  if(d.t==='img'){
+    slot.innerHTML=`<img src="${d.src}">`;
+  } else {
+    slot.innerHTML=`<video muted loop playsinline><source src="${d.src}" type="video/mp4"></video>`;
+    slot.querySelector('video').play().catch(()=>{});
+  }
+  document.getElementById('dj-cap').innerHTML=d.cap;
+  document.querySelectorAll('.dj-dot').forEach((el,i)=>el.classList.toggle('on',i===_djIdx));
+}
+function djMove(dir){djGo((_djIdx+dir+DJ_DATA.length)%DJ_DATA.length);}
+djGo(0);
+
+// ── 죄목 리스트 팝업 ──
+const QUOTES=[
+  {name:'"죄에 상응하는 가장 무거운 대가"', body:'범죄의 고의성과 심각성에 비례하여 법이 허용하는 최고형을 구형하고 집행해야 한다는 응보주의 원칙입니다.'},
+  {name:'"사회와 범죄자의 완전한 격리"',    body:'강력 범죄자나 상습 재범자를 사회로부터 장기간 분리하여 일반 시민의 생명과 신체의 안전을 보장하는 것을 목적으로 합니다.'},
+  {name:'"무관용 원칙"',                    body:'아주 사소한 위법 행위나 범죄라도 예외 없이 강력하게 처벌함으로써, 범죄 발생 자체를 미연에 방지하고자 하는 기조입니다.'},
+];
+let _qIdx=Math.floor(Math.random()*QUOTES.length);
+let _qTimer=null;
+
+function _allQuoteEls(){
+  return[
+    ...document.querySelectorAll('.hq-name,.hq-body'),
+    document.getElementById('cpq-name'),
+    document.getElementById('cpq-body')
+  ].filter(Boolean);
+}
+function _applyQuoteText(idx){
+  document.querySelectorAll('.hq-name').forEach(el=>el.textContent=QUOTES[idx].name);
+  document.querySelectorAll('.hq-body').forEach(el=>el.textContent=QUOTES[idx].body);
+  const n=document.getElementById('cpq-name');
+  const b=document.getElementById('cpq-body');
+  if(n) n.textContent=QUOTES[idx].name;
+  if(b) b.textContent=QUOTES[idx].body;
+}
+function _setQuote(idx,fade){
+  if(fade){
+    _allQuoteEls().forEach(el=>el.style.opacity='0');
+    setTimeout(()=>{
+      _applyQuoteText(idx);
+      _allQuoteEls().forEach(el=>el.style.opacity='1');
+      setTimeout(_scheduleQuote,900);
+    },900);
+  } else {
+    _applyQuoteText(idx);
+    _allQuoteEls().forEach(el=>el.style.opacity='1');
+    _scheduleQuote();
+  }
+}
+function _scheduleQuote(){
+  clearTimeout(_qTimer);
+  _qTimer=setTimeout(()=>{
+    _qIdx=(_qIdx+1)%QUOTES.length;
+    _setQuote(_qIdx,true);
+  },10000);
+}
+_setQuote(_qIdx,false);
+
+// 팝업 토글
+function toggleCrimePopup(btn){
+  const popup=document.getElementById('crime-popup');
+  if(popup.classList.contains('visible')){
+    popup.classList.remove('visible');
+    document.getElementById('nav-crimes').classList.remove('active');
+    return;
+  }
+  const rect=btn.getBoundingClientRect();
+  const top=Math.min(rect.top, window.innerHeight-270);
+  popup.style.left=(rect.right+10)+'px';
+  popup.style.top=Math.max(8,top)+'px';
+  popup.classList.add('visible');
+  document.getElementById('nav-crimes').classList.add('active');
+}
+
+// 팝업 텍스트 스케일 (ResizeObserver)
+const _popup=document.getElementById('crime-popup');
+new ResizeObserver(entries=>{
+  const w=entries[0].contentRect.width;
+  entries[0].target.style.setProperty('--cps',(w/260).toFixed(3));
+}).observe(_popup);
+
+// 드래그 (resize 핸들 영역 제외)
+let _drag=null;
+_popup.addEventListener('mousedown',e=>{
+  const r=_popup.getBoundingClientRect();
+  // resize 핸들 영역(우하단 20px) 제외
+  if(e.clientX>r.right-20 && e.clientY>r.bottom-20) return;
+  _drag={ox:e.clientX-r.left, oy:e.clientY-r.top};
+  e.preventDefault();
+});
+document.addEventListener('mousemove',e=>{
+  if(!_drag) return;
+  _popup.style.left=(e.clientX-_drag.ox)+'px';
+  _popup.style.top=(e.clientY-_drag.oy)+'px';
+});
+document.addEventListener('mouseup',()=>{ _drag=null; });
 </script>
 </body>
 </html>
