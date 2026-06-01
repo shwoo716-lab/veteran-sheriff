@@ -86,6 +86,8 @@ input[type=text]::placeholder{color:#444}
 .fine-item:hover{border-color:#C6A97A;background:#222}
 .fine-item.selected{background:#3a2e24;border-color:#6B4F3A}
 .fine-item:last-child{margin-bottom:0}
+.fine-sep{font-size:17px;font-weight:600;color:#C6A97A;margin-top:10px;margin-bottom:13px;padding-top:12px;padding-bottom:9px;border-top:2px solid #2a2a2a;border-bottom:2px solid #2a2a2a}
+.fine-sep-note{font-size:17px;font-weight:400;color:#666;letter-spacing:0.5px;margin-left:8px}
 .item-left{display:flex;align-items:center;gap:6px;flex:1;min-width:0}
 .item-name{font-size:17px;color:#e6e6e6}
 .item-tag{font-size:15px;font-weight:600;padding:1px 7px;border-radius:4px;flex-shrink:0;background:#2a2a2a;color:#C6A97A;border:1px solid #C6A97A}
@@ -411,6 +413,7 @@ const FINES=[
     {name:'인도 주행',    a:10_000_000,  t:0},
     {name:'기물 파손',    a:10_000_000,  t:0},
     {name:'스턴트 주행',  a:20_000_000,  t:0},
+    {sep:'■ 준경범죄 상황<span class="fine-sep-note">[ 난폭운전 포함X ]</span>'},
     {name:'차량 파손',    a:50_000_000,  t:10},
     {name:'폭주(400km↑)', a:50_000_000,  t:20},
     {name:'뺑소니 사고',  a:100_000_000, t:20},
@@ -515,6 +518,13 @@ function buildFineGrid(){
     card.className='card';
     card.innerHTML=`<div class="card-header">■ ${cat.cat}</div>`;
     cat.items.forEach(item=>{
+      if(item.sep){
+        const sep=document.createElement('div');
+        sep.className='fine-sep';
+        sep.innerHTML=item.sep;
+        card.appendChild(sep);
+        return;
+      }
       const div=document.createElement('div');
       div.className='fine-item';
       div.dataset.a=item.a;
