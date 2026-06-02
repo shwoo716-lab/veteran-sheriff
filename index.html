@@ -233,7 +233,6 @@ input[type=text]::placeholder{color:#444}
         <button class="btn-loc" onclick="toggleLoc(this,'닭공장')">닭공장</button>
         <button class="btn-loc" onclick="toggleLoc(this,'북부은행')">북부은행</button>
         <button class="btn-loc" onclick="toggleLoc(this,'북부저택')">북부저택</button>
-        <button class="btn-loc" onclick="toggleLoc(this,'헬기이륙')">헬기이륙</button>
       </div>
 
       <div class="card">
@@ -244,6 +243,7 @@ input[type=text]::placeholder{color:#444}
 
       <div class="card">
         <div class="card-header">■ 헬기 이륙</div>
+        <button class="btn-loc" onclick="toggleLoc(this,'헬기 순찰')">헬기 순찰</button>
         <button class="btn-loc" onclick="toggleLoc(this,'헬기 면접')">헬기 면접</button>
         <button class="btn-loc" onclick="toggleLoc(this,'헬기 수배')">헬기 수배</button>
       </div>
@@ -393,7 +393,7 @@ const LOC_TEXT={
   '닭공장':         `/보안국 《 닭공장 강도사건 발생 》 신고가 들어와 출동합니다. 현 시간부로 사건 발생지점으로부터 2블럭이내 접근 시 공범으로 간주. 사살 및 긴급체포 할수있습니다. 불이익이 발생하지 않도록 확인 바랍니다. 『 보안국 』`,
   '북부은행':       `/보안국 《 북부은행 강도사건 발생 》 신고가 들어와 출동합니다. 현 시간부로 사건 발생지점으로부터 2블럭이내 접근 시 공범으로 간주. 사살 및 긴급체포 할수있습니다. 불이익이 발생하지 않도록 확인 바랍니다. 『 보안국 』`,
   '북부저택':       `/보안국 《 북부 저택 강도사건 발생 》 신고가 들어와 출동합니다. 현 시간부로 사건 발생지점으로부터 2블럭이내 접근 시 공범으로 간주. 사살 및 긴급체포 할수있습니다. 불이익이 발생하지 않도록 확인 바랍니다. 『 보안국 』`,
-  '헬기이륙':       `/보안국 보안국 헬기 영공순찰로 인하여 이륙합니다.`,
+  '헬기 순찰':      `/보안국 보안국 헬기 영공순찰로 인한 이륙`,
   '남부 진입':      `/보안국 수배로 인한 남부 진입`,
   '물품 구매 남부 진입': `/보안국 물품 구매로 인한 남부 진입 요청`,
   '헬기 면접':          `/보안국 보안국 헬기 면접으로 인한 헬기 이륙`,
