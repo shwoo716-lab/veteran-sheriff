@@ -235,6 +235,18 @@ input[type=text]::placeholder{color:#444}
         <button class="btn-loc" onclick="toggleLoc(this,'북부저택')">북부저택</button>
         <button class="btn-loc" onclick="toggleLoc(this,'헬기이륙')">헬기이륙</button>
       </div>
+
+      <div class="card">
+        <div class="card-header">■ 남부 진입</div>
+        <button class="btn-loc" onclick="toggleLoc(this,'남부 진입')">수배 남부 진입</button>
+        <button class="btn-loc" onclick="toggleLoc(this,'물품 구매 남부 진입')">물품 구매 요청</button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">■ 헬기 이륙</div>
+        <button class="btn-loc" onclick="toggleLoc(this,'헬기 면접')">헬기 면접</button>
+        <button class="btn-loc" onclick="toggleLoc(this,'헬기 수배')">헬기 수배</button>
+      </div>
     </div>
   </section>
 
@@ -294,6 +306,7 @@ input[type=text]::placeholder{color:#444}
   </div>
   <div class="bail-row">
     <button class="btn-byeoldo" id="bail-byeoldo" onclick="addByeoldo()">별도 보석금</button>
+    <button class="btn-byeoldo" id="bail-byeoldo10" onclick="addByeoldo10()">별도 보석금x10</button>
     <button class="btn-byeoldo-revoke" id="bail-byeoldo-revoke" onclick="removeByeoldo()">별도 보석금 철회</button>
     <button class="btn-bail" id="bail-normal" onclick="setBail('normal')">일반 보석금</button>
     <button class="btn-bail" id="bail-large" onclick="setBail('large')">대형 보석금</button>
@@ -381,6 +394,10 @@ const LOC_TEXT={
   '북부은행':       `/보안국 《 북부은행 강도사건 발생 》 신고가 들어와 출동합니다. 현 시간부로 사건 발생지점으로부터 2블럭이내 접근 시 공범으로 간주. 사살 및 긴급체포 할수있습니다. 불이익이 발생하지 않도록 확인 바랍니다. 『 보안국 』`,
   '북부저택':       `/보안국 《 북부 저택 강도사건 발생 》 신고가 들어와 출동합니다. 현 시간부로 사건 발생지점으로부터 2블럭이내 접근 시 공범으로 간주. 사살 및 긴급체포 할수있습니다. 불이익이 발생하지 않도록 확인 바랍니다. 『 보안국 』`,
   '헬기이륙':       `/보안국 보안국 헬기 영공순찰로 인하여 이륙합니다.`,
+  '남부 진입':      `/보안국 수배로 인한 남부 진입`,
+  '물품 구매 남부 진입': `/보안국 물품 구매로 인한 남부 진입 요청`,
+  '헬기 면접':          `/보안국 보안국 헬기 면접으로 인한 헬기 이륙`,
+  '헬기 수배':          `/보안국 보안국 수배로 인한 헬기 이륙`,
 };
 
 // 버튼 flash
@@ -497,6 +514,19 @@ function addByeoldo(){
   }
   byeoldoCount++;
   flashBtn(document.getElementById('bail-byeoldo'),'btn-byeoldo-flash');
+  updateTotals();
+}
+
+function addByeoldo10(){
+  const{fine,time,largeTime}=getRaw();
+  const{dt}=applyBail(fine,time,largeTime);
+  const remaining=dt-byeoldoCount;
+  if(remaining<10){
+    toast('잔여 구금이 10분 미만 — 추가 불가');
+    return;
+  }
+  byeoldoCount+=10;
+  flashBtn(document.getElementById('bail-byeoldo10'),'btn-byeoldo-flash');
   updateTotals();
 }
 
