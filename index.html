@@ -212,6 +212,12 @@ input[type=text]::placeholder{color:#444}
       </div>
 
       <div class="card">
+        <div class="card-header">🔍 불시 검문</div>
+        <input type="text" id="insp-time" placeholder="14:30" maxlength="5" oninput="fmtTime(this)">
+        <button class="btn yellow" onclick="copyInspection()">불시 검문 복사</button>
+      </div>
+
+      <div class="card">
         <div class="card-header">■ ATM 상황</div>
         <button class="btn-loc" onclick="toggleLoc(this,'중부 ATM')">중부 ATM</button>
         <button class="btn-loc" onclick="toggleLoc(this,'서부 ATM')">서부 ATM</button>
@@ -369,11 +375,22 @@ function timeStr(addMin){
 }
 function copyAttendance(){
   const{nick,uid,rsn}=getFields();
+  if(!nick&&!uid&&!rsn){toast('복사할 내용이 없습니다');return;}
   copyText(`/보안국 [ 출석요구서 ]\n닉네임 : ${nick||'미입력'}\n고유번호 : ${uid||'미입력'}\n사유 : ${rsn||'미입력'}\n${timeStr(10)} 까지 출석바랍니다.\n『 보안국 』`);
 }
 function copyWanted(){
   const{nick,uid}=getFields();
+  if(!nick&&!uid){toast('복사할 내용이 없습니다');return;}
   copyText(`/보안국 [ 수배공지 ]\n닉네임 : ${nick||'미입력'}\n고유번호 : ${uid||'미입력'}\n${timeStr(0)} 수배알피 진행합니다.\n위치추적 시작하겠습니다.\n『 보안국 』`);
+}
+function fmtTime(el){
+  const d=el.value.replace(/[^0-9]/g,'').slice(0,4);
+  el.value=d.length>2?d.slice(0,2)+':'+d.slice(2):d;
+}
+function copyInspection(){
+  const time=document.getElementById('insp-time').value.trim();
+  if(!time){toast('복사할 내용이 없습니다');return;}
+  copyText(`/보안국 [ 불시 검문 ] 시간: ${time} 북부전지역 북부고속도로 , 서부고속도로 도로 통제 하예 불시검문 진행 알려드립니다. \n불시검문시 모든 시민분들 북부 도로 이용시 차량통제 하차 요구 및 소지품 검사 있으니 유의해 주시기 바랍니다. \n다소 불편하시겠지만 양해바라며 , 범죄예방 차원에서 진행합니다.`);
 }
 function copyWantedEnd(){
   copyText(`/보안국 수배 상황 종료되었습니다.`);
