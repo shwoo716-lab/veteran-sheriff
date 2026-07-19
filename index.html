@@ -445,7 +445,7 @@ const FINES=[
     {name:'폭주',                    a:20_000_000,  t:0},
     {name:'뺑소니',                  a:20_000_000,  t:0},
   ]},
-  {cat:'도로교통법 (구금)', items:[
+  {cat:'도로교통법 [ 구금 ]', items:[
     {name:'무면허 운전',             a:10_000_000,  t:10},
     {name:'보복운전',                a:10_000_000,  t:15},
     {name:'난폭운전',                a:20_000_000,  t:30},
@@ -455,7 +455,7 @@ const FINES=[
     {name:'풍기문란 및 공연음란',    a:20_000_000,  t:0},
     {name:'증거인멸',                a:30_000_000,  t:10},
     {name:'차량 탈취',               a:30_000_000,  t:15},
-    {name:'불법물건 언급',           a:30_000_000,  t:20, tag:'수배 RP 진행 출석 시'},
+    {name:'불법물건 언급',           a:30_000_000,  t:20, tag:'수배RP 진행 출석 시'},
     {name:'불법물건 소지',           a:40_000_000,  t:20},
     {name:'불법물건 사용',           a:40_000_000,  t:20},
     {name:'살인',                    a:50_000_000,  t:15},
@@ -479,20 +479,24 @@ const FINES=[
     {name:'마을 털이',              a:200_000_000, t:10},
   ]},
   {cat:'대형 스토리RP', items:[
-    {name:'도주RP',                 a:100_000_000, t:20, large:true, mustJail:true},
     {name:'구 보안청 털이',         a:180_000_000, t:30, large:true, mustJail:true},
-    {name:'수배 지원 인원',         a:200_000_000, t:10, large:true, mustJail:true},
     {name:'북부은행 털이',          a:200_000_000, t:20, large:true, mustJail:true},
     {name:'닭공장 털이',            a:200_000_000, t:20, large:true, mustJail:true},
-    {name:'최초 수배자',            a:300_000_000, t:30, large:true, mustJail:true},
   ]},
   {cat:'영장RP', items:[
     {name:'영장RP (참여 인원)',     a:100_000_000, t:20, large:true},
-    {name:'영장RP (최초 범죄자)',   a:300_000_000, t:20, large:true, mustJail:true},
+    {name:'영장RP (최초 범죄자)',   a:300_000_000, t:20, large:true, tag:'유치장 이송'},
   ]},
   {cat:'즉흥RP', items:[
     {name:'즉흥RP (참여 인원)',     a:100_000_000, t:10, large:true},
-    {name:'즉흥RP (최초 도주자)',   a:200_000_000, t:10, large:true, mustJail:true},
+    {name:'즉흥RP (최초 도주자)',   a:200_000_000, t:10, large:true, tag:'유치장 이송'},
+  ]},
+  {cat:'수배RP', items:[
+    {name:'수배RP (지원 인원)',     a:200_000_000, t:10, large:true},
+    {name:'수배RP (최초 수배자)',   a:300_000_000, t:30, large:true, mustJail:true, tag:'유치장 이송'},
+  ]},
+  {cat:'도주RP [ 처벌 추가 가능 ]', items:[
+    {name:'도주RP 패배',            a:100_000_000, t:20, large:true, mustJail:true, tag:'유치장 이송'},
   ]},
 ];
 
