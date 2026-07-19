@@ -317,6 +317,7 @@ input[type=text]::placeholder{color:#444}
     <button class="btn-byeoldo" id="bail-byeoldo" onclick="addByeoldo()">별도 보석금</button>
     <button class="btn-byeoldo" id="bail-byeoldo10" onclick="addByeoldo10()">별도 보석금x10</button>
     <button class="btn-byeoldo-revoke" id="bail-byeoldo-revoke" onclick="removeByeoldo()">별도 보석금 철회</button>
+    <button class="btn-byeoldo-revoke" id="bail-byeoldo-revoke10" onclick="removeByeoldo10()">별도 보석금 철회x10</button>
     <button class="btn-reset" onclick="resetFines()">초기화</button>
     <button class="btn-copy-res" onclick="copyFineResult()">내역 복사</button>
   </div>
@@ -484,15 +485,15 @@ const FINES=[
     {name:'닭공장 털이',            a:200_000_000, t:20, large:true, mustJail:true},
   ]},
   {cat:'영장RP', items:[
-    {name:'영장RP (참여 인원)',     a:100_000_000, t:20, large:true},
-    {name:'영장RP (최초 범죄자)',   a:300_000_000, t:20, large:true, tag:'유치장 이송'},
+    {name:'영장RP (참여 인원)',     a:100_000_000, t:20, large:true, mustJail:true},
+    {name:'영장RP (최초 범죄자)',   a:300_000_000, t:20, large:true, mustJail:true, tag:'유치장 이송'},
   ]},
   {cat:'즉흥RP', items:[
-    {name:'즉흥RP (참여 인원)',     a:100_000_000, t:10, large:true},
-    {name:'즉흥RP (최초 도주자)',   a:200_000_000, t:10, large:true, tag:'유치장 이송'},
+    {name:'즉흥RP (참여 인원)',     a:100_000_000, t:10, large:true, mustJail:true},
+    {name:'즉흥RP (최초 도주자)',   a:200_000_000, t:10, large:true, mustJail:true, tag:'유치장 이송'},
   ]},
   {cat:'수배RP', items:[
-    {name:'수배RP (지원 인원)',     a:200_000_000, t:10, large:true},
+    {name:'수배RP (지원 인원)',     a:200_000_000, t:10, large:true, mustJail:true},
     {name:'수배RP (최초 수배자)',   a:300_000_000, t:30, large:true, mustJail:true, tag:'유치장 이송'},
   ]},
   {cat:'도주RP [ 처벌 추가 가능 ]', items:[
@@ -545,6 +546,16 @@ function removeByeoldo(){
   }
   byeoldoCount--;
   flashBtn(document.getElementById('bail-byeoldo-revoke'),'btn-byeoldo-revoke-flash');
+  updateTotals();
+}
+
+function removeByeoldo10(){
+  if(byeoldoCount<=0){
+    toast('철회할 별도 보석금이 없음');
+    return;
+  }
+  byeoldoCount=Math.max(0,byeoldoCount-10);
+  flashBtn(document.getElementById('bail-byeoldo-revoke10'),'btn-byeoldo-revoke-flash');
   updateTotals();
 }
 
@@ -630,7 +641,7 @@ function updateTotals(){
   const bd=document.getElementById('byeoldo-display');
   if(byeoldoCount>0){
     bd.style.display='inline-block';
-    bd.textContent=`[별도 보석금] ${byeoldoCount}회`;
+    bd.textContent=`[별도 보석금] ${byeoldoCount}회 적용중`;
   } else {
     bd.style.display='none';
   }
