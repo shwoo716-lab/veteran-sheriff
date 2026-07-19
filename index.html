@@ -68,7 +68,6 @@ input[type=text]::placeholder{color:#444}
 
 /* Flash animations */
 @keyframes flash-loc{0%,35%{background:#6B4F3A;border-color:#6B4F3A;color:#fff}100%{background:#222;border-color:#2a2a2a;color:#aaa}}
-@keyframes flash-bail{0%,35%{background:#6B4F3A;border-color:#6B4F3A;color:#fff}100%{background:#222;border-color:#2a2a2a;color:#aaa}}
 @keyframes flash-byeoldo{0%,35%{background:#8B6B4A;border-color:#8B6B4A;color:#fff}100%{background:#222;border-color:#2a2a2a;color:#aaa}}
 @keyframes flash-byeoldo-revoke{0%,35%{background:#d97070;border-color:#d97070;color:#fff}100%{background:#222;border-color:#d97070;color:#d97070}}
 .btn-flash{animation:flash-loc .5s ease-out forwards}
@@ -116,8 +115,6 @@ input[type=text]::placeholder{color:#444}
 .bail-row{display:flex;align-items:center;gap:10px;margin-left:auto;flex-wrap:wrap}
 
 /* Bail / action buttons */
-.btn-bail{padding:10px 16px;background:#222;border:1px solid #2a2a2a;border-radius:8px;color:#aaa;cursor:pointer;font-size:16px;font-weight:500;font-family:inherit;white-space:nowrap}
-.btn-bail:hover{background:#2d2d2d;color:#e6e6e6}
 .btn-byeoldo{padding:10px 16px;background:#222;border:1px solid #8B6B4A;border-radius:8px;color:#C6A97A;cursor:pointer;font-size:16px;font-weight:500;font-family:inherit;white-space:nowrap}
 .btn-byeoldo:hover{background:#2d2d2d}
 .btn-byeoldo-revoke{padding:10px 16px;background:#222;border:1px solid #d97070;border-radius:8px;color:#d97070;cursor:pointer;font-size:16px;font-weight:500;font-family:inherit;white-space:nowrap}
@@ -320,8 +317,6 @@ input[type=text]::placeholder{color:#444}
     <button class="btn-byeoldo" id="bail-byeoldo" onclick="addByeoldo()">별도 보석금</button>
     <button class="btn-byeoldo" id="bail-byeoldo10" onclick="addByeoldo10()">별도 보석금x10</button>
     <button class="btn-byeoldo-revoke" id="bail-byeoldo-revoke" onclick="removeByeoldo()">별도 보석금 철회</button>
-    <button class="btn-bail" id="bail-normal" onclick="setBail('normal')">일반 보석금</button>
-    <button class="btn-bail" id="bail-large" onclick="setBail('large')">대형 보석금</button>
     <button class="btn-reset" onclick="resetFines()">초기화</button>
     <button class="btn-copy-res" onclick="copyFineResult()">내역 복사</button>
   </div>
@@ -501,43 +496,15 @@ const FINES=[
   ]},
 ];
 
-const BAIL_RATE={normal:10_000_000, large:10_000_000};
-let bailMode='none';
 let byeoldoCount=0;
-
-function setBail(mode){
-  bailMode=(bailMode===mode)?'none':mode;
-  byeoldoCount=0;
-  flashBtn(document.getElementById('bail-'+mode),'btn-bail-flash');
-  updateTotals();
-}
 
 function fmt(n){return n.toLocaleString('ko-KR')+'원'}
 
-// 대형 보석금: large 항목은 최소 10분 구금 유지
-function applyBail(fine,time,largeTime){
-  if(bailMode==='none') return{df:fine,dt:time};
-  const normalTime=time-largeTime;
-  if(bailMode==='normal'){
-    const chunks=Math.floor(time/10);
-    return{df:fine+chunks*BAIL_RATE.normal, dt:time%10};
-  }
-  const normalChunks=Math.floor(normalTime/10);
-  const remainNormal=normalTime%10;
-  const largeChunks=largeTime>10?Math.floor((largeTime-10)/10):0;
-  const remainLarge=largeTime>0?largeTime-largeChunks*10:0;
-  return{
-    df:fine+(normalChunks+largeChunks)*BAIL_RATE.large,
-    dt:remainNormal+remainLarge
-  };
-}
-
 // 별도 보석금: 구금 1분 차감 & 벌금 1,000,000 추가
-// 필수 구금 항목 선택시 최소 구금 10분 강제 유지
+// 필수 구금 항목 선택시 최소 구금 (개수×10분) 강제 유지
 function addByeoldo(){
-  const{fine,time,largeTime,mustJailCount}=getRaw();
-  const{dt}=applyBail(fine,time,largeTime);
-  const remaining=dt-byeoldoCount;
+  const{time,mustJailCount}=getRaw();
+  const remaining=time-byeoldoCount;
   if(remaining<=0){
     toast('더 이상 별도 보석금 추가 불가');
     return;
@@ -552,9 +519,8 @@ function addByeoldo(){
 }
 
 function addByeoldo10(){
-  const{fine,time,largeTime,mustJailCount}=getRaw();
-  const{dt}=applyBail(fine,time,largeTime);
-  const remaining=dt-byeoldoCount;
+  const{time,mustJailCount}=getRaw();
+  const remaining=time-byeoldoCount;
   if(remaining<10){
     toast('잔여 구금이 10분 미만 — 추가 불가');
     return;
@@ -632,30 +598,26 @@ function buildFineGrid(){
 }
 
 function getRaw(){
-  let fine=0,time=0,largeTime=0,mustJailCount=0;
+  let fine=0,time=0,mustJailCount=0;
   document.querySelectorAll('.fine-item.selected').forEach(el=>{
     fine+=+el.dataset.a; time+=+el.dataset.t;
-    if(el.dataset.large==='true') largeTime+=+el.dataset.t;
     if(el.dataset.mustjail==='true') mustJailCount++;
   });
-  return{fine,time,largeTime,mustJailCount};
+  return{fine,time,mustJailCount};
 }
 
-// 최종 값 계산 (bail + 별도 보석금 모두 적용)
 function getFinal(){
-  const{fine,time,largeTime}=getRaw();
-  const{df,dt}=applyBail(fine,time,largeTime);
+  const{fine,time}=getRaw();
   return{
-    finalFine: df + byeoldoCount*1_000_000,
-    finalTime: Math.max(0, dt-byeoldoCount)
+    finalFine: fine + byeoldoCount*1_000_000,
+    finalTime: Math.max(0, time-byeoldoCount)
   };
 }
 
 function updateTotals(){
   // 죄목 해제 시 byeoldo가 허용 범위를 초과하면 자동으로 줄임
-  const{fine:_rf,time:_rt,largeTime:_rl,mustJailCount:_mc}=getRaw();
-  const{dt:_rd}=applyBail(_rf,_rt,_rl);
-  byeoldoCount=Math.min(byeoldoCount,Math.max(0,_rd-_mc*10));
+  const{time:_rt,mustJailCount:_mc}=getRaw();
+  byeoldoCount=Math.min(byeoldoCount,Math.max(0,_rt-_mc*10));
 
   const{finalFine,finalTime}=getFinal();
   document.getElementById('disp-fine').textContent=fmt(finalFine);
@@ -690,7 +652,6 @@ function updateCrimeList(){
 
 function resetFines(){
   document.querySelectorAll('.fine-item.selected').forEach(el=>el.classList.remove('selected'));
-  bailMode='none';
   byeoldoCount=0;
   updateTotals();
 }
